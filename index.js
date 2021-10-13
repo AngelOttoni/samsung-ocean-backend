@@ -15,7 +15,20 @@ app.get("/oi", function(req, res) {
 
 // Lista de heróis
 
-const lista = ["Wonder Woman", "Catwoman", "Supergirl"];
+const lista = [
+    {
+        id: 1,
+        name: "Wonder Woman",
+    }, 
+    { 
+        id: 2,
+        name: "Catwoman",
+    }, 
+    {
+        id: 3,
+        name: "Supergirl",
+    },
+];
 
 // Endpoint de Read All
 
@@ -27,13 +40,16 @@ app.get("/herois", function(req, res) {
 
 app.get("/herois/:id", function(req, res) {
 
-    const id = +req.params.id - 1;
+    const id = +req.params.id;
 
-    const item = lista[id];
+    const item = lista.find(item => item.id === id);
 
-    console.log(item);
+        if (!item) {
+        res.status(404).send("Item não encontrado!");
 
-    
+        // Return encerra a função
+        return;
+    }
 
     res.send(item);
 });
@@ -43,6 +59,13 @@ app.get("/herois/:id", function(req, res) {
 app.post("/herois", function(req, res) {
 
     const item = req.body;
+
+    if (!item || !item.name) {
+        res.status(400).send(
+            "Corpo da requisição não encontrado ou está faltando a chave 'name'."
+        );
+        return;
+    };
 
     lista.push(item.name);
 
@@ -55,7 +78,20 @@ app.put("/herois/:id", function(req, res) {
 
     const id = +req.params.id - 1;
 
+    if (!lista[id]) {
+        res.status(404).send("Item não encontrado!");
+
+        return;
+    };
+
     const item = req.body;
+
+    if (!item || !item.name) {
+        res.status(400).send(
+            "Corpo da requisição não encontrado ou está faltando a chave 'name'."
+        );
+        return;
+    };
 
     lista[id] = item.name;
 
@@ -68,6 +104,12 @@ app.put("/herois/:id", function(req, res) {
 app.delete("/herois/:id", function(req, res) {
 
     const id = +req.params.id - 1;
+
+    if (!lista[id]) {
+        res.status(404).send("Item não encontrado!");
+
+        return;
+    };
 
     delete lista[id];
 
