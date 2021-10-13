@@ -21,4 +21,10 @@ app.get("/herois", function (req, res) {
     res.send(lista);
 });
 
+// Endpoint de Read Single (by Id)
+
+app.get("/herois/:id", function (req, res) {
+    res.send(req.params);
+});
+
 app.listen(3000);
