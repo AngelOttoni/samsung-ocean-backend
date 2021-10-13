@@ -30,6 +30,14 @@ const lista = [
     },
 ];
 
+// Função de findById
+
+function findById(id) {
+    const item = lista.find(item => item.id === id);
+
+    return item;
+}
+
 // Endpoint de Read All
 
 app.get("/herois", function(req, res) {
@@ -42,7 +50,7 @@ app.get("/herois/:id", function(req, res) {
 
     const id = +req.params.id;
 
-    const item = lista.find(item => item.id === id);
+    const item = findById(id);
 
         if (!item) {
         res.status(404).send("Item não encontrado!");
