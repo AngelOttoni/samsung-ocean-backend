@@ -67,9 +67,11 @@ app.post("/herois", function(req, res) {
         return;
     };
 
-    lista.push(item.name);
+    item.id = lista.length + 1;
 
-    res.send(item.name + " adicionado(a) com sucesso!");
+    lista.push(item);
+
+    res.status(201).send(item);
 });
 
 // Endpoint de Update
