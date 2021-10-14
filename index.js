@@ -33,7 +33,7 @@ const lista = [
 // Função de findById
 
 function findById(id) {
-    const item = lista.find(item => item.id === id);
+    const item = lista.find(item => item && item.id === id);
 
     return item;
 }
@@ -86,9 +86,11 @@ app.post("/herois", function(req, res) {
 
 app.put("/herois/:id", function(req, res) {
 
-    const id = +req.params.id - 1;
+    const id = +req.params.id;
+    
+    const itemAtual = findById(id);
 
-    if (!lista[id]) {
+    if (!itemAtual) {
         res.status(404).send("Item não encontrado!");
 
         return;
@@ -100,12 +102,17 @@ app.put("/herois/:id", function(req, res) {
         res.status(400).send(
             "Corpo da requisição não encontrado ou está faltando a chave 'name'."
         );
+
         return;
     };
 
-    lista[id] = item.name;
+    const indice = lista.indexOf(itemAtual);
 
-    res.send(item.name + " atualizado(a) com sucesso!");
+    item.id = itemAtual.id;
+
+    lista[indice] = item;
+
+    res.send(item);
 
 });
 
@@ -113,15 +120,19 @@ app.put("/herois/:id", function(req, res) {
 
 app.delete("/herois/:id", function(req, res) {
 
-    const id = +req.params.id - 1;
+    const id = +req.params.id;
 
-    if (!lista[id]) {
+    const item = findById(id);
+
+    if (!item) {
         res.status(404).send("Item não encontrado!");
 
         return;
     };
 
-    delete lista[id];
+    const indice = lista.indexOf(item);
+
+    delete lista[indice];
 
     res.send("Item removido com sucesso!");
 });
