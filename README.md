@@ -4,8 +4,8 @@ _com prof. Paulo Salvatore_
 
 - Para executar o projeto será necessário os seguintes programas:
 
-  Visual Studio Code
-  Node.js
+  - Visual Studio Code
+  - Node.js
 
 ## Dependências utilizadas
 
