@@ -17,8 +17,7 @@ const client = await MongoClient.connect(url);
 console.info("MongoDB conectado com sucesso!");
 
 const db = client.db(dbName);
-
-const collection = db.collection("herois");
+const collection = db.collection("heroes");
 
 app.use(express.json());
 
@@ -51,8 +50,8 @@ const lista = [
 
 // Função de findById
 
-function findById(id) {
-    const item = lista.find(item => item && item.id === id);
+async function findById(id) {
+    const item = await collection.findOne({ _id: ObjectId(id) });
 
     return item;
 }
@@ -66,11 +65,11 @@ app.get("/herois", async function(req, res) {
 
 // Endpoint de Read Single (by Id)
 
-app.get("/herois/:id", function(req, res) {
+app.get("/herois/:id", async function(req, res) {
 
-    const id = +req.params.id;
+    const id = req.params.id;
 
-    const item = findById(id);
+    const item = await findById(id);
 
         if (!item) {
         res.status(404).send("Item não encontrado!");
