@@ -60,6 +60,7 @@ async function findById(id) {
 
 app.get("/herois", async function(req, res) {
     const resultado = await collection.find().toArray();
+    
     res.send(resultado);
 });
 
@@ -83,7 +84,7 @@ app.get("/herois/:id", async function(req, res) {
 
 // Endpoint de Create
 
-app.post("/herois", function(req, res) {
+app.post("/herois", async function (req, res) {
 
     const item = req.body;
 
@@ -93,10 +94,8 @@ app.post("/herois", function(req, res) {
         );
         return;
     };
-
-    item.id = lista.length + 1;
-
-    lista.push(item);
+    
+    await collection.insertOne(item);
 
     res.status(201).send(item);
 });
