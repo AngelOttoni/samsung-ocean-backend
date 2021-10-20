@@ -60,7 +60,7 @@ async function findById(id) {
 
 app.get("/herois", async function(req, res) {
     const resultado = await collection.find().toArray();
-    
+
     res.send(resultado);
 });
 
@@ -102,11 +102,11 @@ app.post("/herois", async function (req, res) {
 
 // Endpoint de Update
 
-app.put("/herois/:id", function(req, res) {
+app.put("/herois/:id", async function(req, res) {
 
-    const id = +req.params.id;
+    const id = req.params.id;
     
-    const itemAtual = findById(id);
+    const itemAtual = await findById(id);
 
     if (!itemAtual) {
         res.status(404).send("Item não encontrado!");
@@ -124,11 +124,7 @@ app.put("/herois/:id", function(req, res) {
         return;
     };
 
-    const indice = lista.indexOf(itemAtual);
-
-    item.id = itemAtual.id;
-
-    lista[indice] = item;
+    await collection.updateOne({ _id: ObjectId(id) }, { $set: item })
 
     res.send(item);
 
