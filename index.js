@@ -1,5 +1,24 @@
 const express = require("express");
+const { MongoClient, ObjectId } = require("mongodb");
+
 const app = express();
+
+(async () => {
+// Conectar com o DB
+// Pegar a minha collection
+
+const url = "mongodb://localhost:27017";
+const dbName = "ocean_db_20_10_2021";
+
+console.info("Conectando ao banco de dados MongoDB...");
+
+const client = await MongoClient.connect(url);
+
+console.info("MongoDB conectado com sucesso!");
+
+const db = client.db(dbName);
+
+const collection = db.collection("herois");
 
 app.use(express.json());
 
@@ -40,8 +59,9 @@ function findById(id) {
 
 // Endpoint de Read All
 
-app.get("/herois", function(req, res) {
-    res.send(lista.filter(Boolean));
+app.get("/herois", async function(req, res) {
+    const resultado = await collection.find().toArray();
+    res.send(resultado);
 });
 
 // Endpoint de Read Single (by Id)
@@ -138,3 +158,5 @@ app.delete("/herois/:id", function(req, res) {
 });
 
 app.listen(3000);
+
+})();
