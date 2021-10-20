@@ -132,11 +132,11 @@ app.put("/herois/:id", async function(req, res) {
 
 // Endpoint Delete
 
-app.delete("/herois/:id", function(req, res) {
+app.delete("/herois/:id", async function (req, res) {
 
-    const id = +req.params.id;
+    const id = req.params.id;
 
-    const item = findById(id);
+    const item = await findById(id);
 
     if (!item) {
         res.status(404).send("Item não encontrado!");
@@ -144,9 +144,7 @@ app.delete("/herois/:id", function(req, res) {
         return;
     };
 
-    const indice = lista.indexOf(item);
-
-    delete lista[indice];
+    await collection.deleteOne({ _id: ObjectId(id) });
 
     res.send("Item removido com sucesso!");
 });
