@@ -6,9 +6,9 @@ const app = express();
 (async () => {
 // Conectar com o DB
 // Pegar a minha collection
-/*
-const url = "mongodb://localhost:27017";
-const dbName = "ocean_db_20_10_2021";
+
+const url = "mongodb+srv://amo14:fenixwitch23@cluster0.u2t7q.mongodb.net/";
+const dbName = "ocean_db_heroes";
 
 console.info("Conectando ao banco de dados MongoDB...");
 
@@ -18,9 +18,6 @@ console.info("MongoDB conectado com sucesso!");
 
 const db = client.db(dbName);
 const collection = db.collection("heroes");
-*/
-
-const collection = undefined;
 
 app.use(express.json());
 
