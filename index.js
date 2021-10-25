@@ -6,7 +6,7 @@ const app = express();
 (async () => {
 // Conectar com o DB
 // Pegar a minha collection
-
+/*
 const url = "mongodb://localhost:27017";
 const dbName = "ocean_db_20_10_2021";
 
@@ -18,6 +18,9 @@ console.info("MongoDB conectado com sucesso!");
 
 const db = client.db(dbName);
 const collection = db.collection("heroes");
+*/
+
+const collection = undefined;
 
 app.use(express.json());
 
@@ -149,6 +152,6 @@ app.delete("/herois/:id", async function (req, res) {
     res.send("Item removido com sucesso!");
 });
 
-app.listen(3000);
+app.listen(process.env.PORT || 3000);
 
 })();
